@@ -1,38 +1,137 @@
-.App {
-  text-align: center;
+:root {
+  --text-dark: #2f2d35;
+  --text-dark-secondary: #3e3c48;
+  --blue: #2f80ed;
+  --blue-dark: #2172dd;
+  --font-size-base: 1rem;
+  --font-size-md: 1.25rem;
+  --font-size-lg: 2rem;
+  --font-size-sm: 0.875rem;
+  --font-size-xs: 0.75rem;
+  --shadow-xs: 0 2px 5px -1px rgba(50, 50, 93, 0.1),
+    0 1px 3px -1px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 4px 12px -3px rgba(50, 50, 93, 0.1),
+    0 2px 5px -3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 13px 27px -5px rgba(50, 50, 93, 0.1),
+    0 8px 16px -8px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 30px 60px -12px rgba(50, 50, 93, 0.1),
+    0 18px 36px -18px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 50px 100px -20px rgba(50, 50, 93, 0.1),
+    0 30px 60px -30px rgba(0, 0, 0, 0.2);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+body {
+  line-height: 1;
 }
-
-.App-link {
-  color: #61dafb;
+ol,
+ul {
+  list-style: none;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f6f5f7;
 }
