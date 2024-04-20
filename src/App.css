@@ -1,23 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
 :root {
-  --text-dark: #2f2d35;
-  --text-dark-secondary: #3e3c48;
-  --blue: #2f80ed;
-  --blue-dark: #2172dd;
-  --font-size-base: 1rem;
-  --font-size-md: 1.25rem;
-  --font-size-lg: 2rem;
-  --font-size-sm: 0.875rem;
-  --font-size-xs: 0.75rem;
-  --shadow-xs: 0 2px 5px -1px rgba(50, 50, 93, 0.1),
-    0 1px 3px -1px rgba(0, 0, 0, 0.2);
-  --shadow-sm: 0 4px 12px -3px rgba(50, 50, 93, 0.1),
-    0 2px 5px -3px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 13px 27px -5px rgba(50, 50, 93, 0.1),
-    0 8px 16px -8px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 30px 60px -12px rgba(50, 50, 93, 0.1),
-    0 18px 36px -18px rgba(0, 0, 0, 0.2);
-  --shadow-xl: 0 50px 100px -20px rgba(50, 50, 93, 0.1),
-    0 30px 60px -30px rgba(0, 0, 0, 0.2);
+  --rice: hsl(64, 100%, 97%);
+  --shadow-rice: hsla(63, 70%, 94%, 0.5);
+  --leaf: hsl(67, 48%, 77%);
+  --shadow-leaf: hsla(67, 38%, 50%, 1);
+  /* hsla(67, 47%, 82%, 1.00) */
+  /* --leaf: hsla(148, 30%, 84%, 1); */
+  --light-leaf: hsl(63, 100%, 96%);
+  --dark-leaf: hsl(72, 38%, 88%);
+  --forest: hsla(180, 70%, 33%, 1);
+  --japan: hsl(13, 75%, 62%);
+  --dark-japan: hsl(13, 80%, 55%);
+  --slate: hsl(201, 20%, 20%);
+  --light-slate: hsl(200, 14%, 61%);
+  --font-serif: "Source Serif Pro", serif;
+  --font-sans: "Inter", sans-serif;
+  --font-sm: clamp(0.8rem, 2.5vw, 0.85rem);
+  --font-base: clamp(0.9rem, 2.5vw, 0.95rem);
+  --font-md: clamp(1rem, 2.5vw, 1.15rem);
+  --font-lg: clamp(1.95rem, 2.5vw, 2.25rem);
 }
 
 a,
@@ -117,6 +120,14 @@ blockquote,
 q {
   quotes: none;
 }
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+  padding: 0;
+}
 blockquote:before,
 blockquote:after,
 q:before,
@@ -133,5 +144,5 @@ body {
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f6f5f7;
+  background-color: var(--leaf);
 }
