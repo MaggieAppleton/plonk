@@ -1,86 +1,108 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import PlantCard from "./PlantCard";
 import { ReactComponent as PlonkLogo } from "./PlonkLogo.svg";
 
-const originalPlants = [
-  {
-    name: "Cleopatra",
-    species: "Fishbone Cactus",
-    location: "Cozy Room",
-    wateringPeriod: 22,
-    lastWateredTime: 1710318823191,
-    image: "/cleopatra.webp",
-  },
-  {
-    name: "Gallahad",
-    species: "Rubber Plant",
-    location: "Cozy Room",
-    wateringPeriod: 9,
-    lastWateredTime: 1713218823191,
-    image: "/gallahad.webp",
-  },
-  {
-    name: "Mao",
-    species: "Peace Lily",
-    location: "Business Room",
-    wateringPeriod: 6,
-    lastWateredTime: 1712118823191,
-    image: "/mao.webp",
-  },
-  {
-    name: "Rapunzel",
-    species: "Golden Pothos",
-    location: "Business Room",
-    wateringPeriod: 8,
-    lastWateredTime: 1713618823191,
-    image: "/rapunzel.webp",
-  },
-  {
-    name: "Rasputin",
-    species: "Chinese Evergreen",
-    location: "Business Room",
-    wateringPeriod: 8,
-    lastWateredTime: 1714118823191,
-    image: "/rasputin.webp",
-  },
-  {
-    name: "Rodney",
-    species: "Cast Iron Plant",
-    location: "Cozy Room",
-    wateringPeriod: 8,
-    lastWateredTime: 1713018823191,
-    image: "/rodney.webp",
-  },
-  {
-    name: "Sophocles",
-    species: "Neon Pothos",
-    location: "Kitchen",
-    wateringPeriod: 8,
-    lastWateredTime: 1712818823191,
-    image: "/soph.webp",
-  },
-  {
-    name: "Toppin",
-    species: "ZZ Plant",
-    location: "Cozy Room",
-    wateringPeriod: 19,
-    lastWateredTime: 1712618823191,
-    image: "/toppin.webp",
-  },
-  {
-    name: "Ulysses",
-    species: "Heart Leaf Philodendron",
-    location: "Business Room",
-    wateringPeriod: 8,
-    lastWateredTime: 1713318823191,
-    image: "/ulysses.webp",
-  },
-];
+const data = await fetch("https://maggieappleton-plonkPlants.web.val.run/");
+const originalPlants = await data.json();
+
+// const originalPlants = [
+//   {
+//     name: "Cleopatra",
+//     species: "Fishbone Cactus",
+//     location: "Cozy Room",
+//     wateringPeriod: 22,
+//     lastWateredTime: 1711218823191,
+//     image: "/cleopatra.webp",
+//   },
+//   {
+//     name: "Gallahad",
+//     species: "Rubber Plant",
+//     location: "Cozy Room",
+//     wateringPeriod: 9,
+//     lastWateredTime: 1713218823191,
+//     image: "/gallahad.webp",
+//   },
+//   {
+//     name: "Mao",
+//     species: "Peace Lily",
+//     location: "Business Room",
+//     wateringPeriod: 6,
+//     lastWateredTime: 1712118823191,
+//     image: "/mao.webp",
+//   },
+//   {
+//     name: "Rapunzel",
+//     species: "Golden Pothos",
+//     location: "Business Room",
+//     wateringPeriod: 8,
+//     lastWateredTime: 1713618823191,
+//     image: "/rapunzel.webp",
+//   },
+//   {
+//     name: "Rasputin",
+//     species: "Chinese Evergreen",
+//     location: "Business Room",
+//     wateringPeriod: 8,
+//     lastWateredTime: 1714118823191,
+//     image: "/rasputin.webp",
+//   },
+//   {
+//     name: "Rodney",
+//     species: "Cast Iron Plant",
+//     location: "Cozy Room",
+//     wateringPeriod: 8,
+//     lastWateredTime: 1713018823191,
+//     image: "/rodney.webp",
+//   },
+//   {
+//     name: "Sophocles",
+//     species: "Neon Pothos",
+//     location: "Kitchen",
+//     wateringPeriod: 8,
+//     lastWateredTime: 1712818823191,
+//     image: "/soph.webp",
+//   },
+//   {
+//     name: "Toppin",
+//     species: "ZZ Plant",
+//     location: "Cozy Room",
+//     wateringPeriod: 19,
+//     lastWateredTime: 1712618823191,
+//     image: "/toppin.webp",
+//   },
+//   {
+//     name: "Ulysses",
+//     species: "Heart Leaf Philodendron",
+//     location: "Business Room",
+//     wateringPeriod: 8,
+//     lastWateredTime: 1712911123191,
+//     image: "/ulysses.webp",
+//   },
+// ];
 
 function App() {
   const [plants, setPlants] = useState(originalPlants);
+  const [sortedPlants, setSortedPlants] = useState([]);
+
+  useEffect(() => {
+    const sortedPlants = [...plants]
+      .map((plant) => ({
+        ...plant,
+        daysSinceWatered: Math.floor(
+          (Date.now() - new Date(plant.lastWateredTime).getTime()) /
+            (1000 * 60 * 60 * 24)
+        ),
+      }))
+      .map((plant) => ({
+        ...plant,
+        daysToWater: plant.wateringPeriod - plant.daysSinceWatered,
+      }))
+      .sort((a, b) => a.daysToWater - b.daysToWater);
+
+    setSortedPlants(sortedPlants);
+  }, []);
 
   return (
     <Container>
@@ -88,22 +110,9 @@ function App() {
         <PlonkLogo />
       </Header>
       <MainGrid>
-        {plants
-          .map((plant) => ({
-            ...plant,
-            daysSinceWatered: Math.floor(
-              (Date.now() - new Date(plant.lastWateredTime).getTime()) /
-                (1000 * 60 * 60 * 24)
-            ),
-          }))
-          .map((plant) => ({
-            ...plant,
-            daysToWater: plant.wateringPeriod - plant.daysSinceWatered,
-          }))
-          .sort((a, b) => a.daysToWater - b.daysToWater)
-          .map((plant, index) => (
-            <PlantCard setPlants={setPlants} key={index} {...plant} />
-          ))}
+        {sortedPlants.map((plant, index) => (
+          <PlantCard setPlants={setPlants} key={index} {...plant} />
+        ))}
       </MainGrid>
     </Container>
   );

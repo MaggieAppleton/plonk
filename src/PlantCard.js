@@ -1,6 +1,7 @@
 import React from "react";
 import { Leaf, House, Timer, SealWarning } from "@phosphor-icons/react";
 import styled from "styled-components";
+import { Button } from "./Button";
 
 const PlantCard = ({
   image,
@@ -13,11 +14,14 @@ const PlantCard = ({
 }) => {
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const handleClick = (name) => {
+  const waterPlant = async (name) => {
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    const data = await fetch(
+      "https://maggieappleton-plonkPlants.web.val.run/" + name
+    );
+    const updatedPlants = await data.json();
+    setPlants(updatedPlants);
+    setIsLoading(false);
   };
 
   const CountDown = ({ wateringPeriod, daysSinceWatered }) => {
@@ -39,19 +43,6 @@ const PlantCard = ({
 
   const isOverdue = daysToWater < -4;
 
-  const wateringMessages = [
-    "Water me",
-    "Wet me",
-    "Make me moist",
-    "Drench my soil",
-    "Quench my thirst",
-    "Drip on me",
-    "Make it rain",
-  ];
-
-  const randomWateringMessage =
-    wateringMessages[Math.floor(Math.random() * wateringMessages.length)];
-
   return (
     <Card>
       <ImageWrapper>
@@ -67,28 +58,19 @@ const PlantCard = ({
           <House size={18} />
           {location}
         </p>
-        <p className="timer">
-          {daysToWater > 0 ? (
-            <>
-              <Timer size={18} />
-              Water in {daysToWater} days
-            </>
-          ) : (
-            <>
-              <SealWarning size={18} className={isOverdue ? "warn" : ""} />
-              Last watered {daysSinceWatered} days ago
-            </>
-          )}
-        </p>
+        <WateringInfo
+          daysToWater={daysToWater}
+          daysSinceWatered={daysSinceWatered}
+          isOverdue={isOverdue}
+        />
+
         {daysSinceWatered >= wateringPeriod ? (
-          <Button onClick={() => handleClick(name)} isOverdue={isOverdue}>
-            {isLoading
-              ? "Loading..."
-              : isOverdue
-              ? "Save Me"
-              : randomWateringMessage}
-            {isOverdue && <span>{-daysToWater} days late</span>}
-          </Button>
+          <Button
+            onClick={() => waterPlant(name)}
+            isOverdue={isOverdue}
+            isLoading={isLoading}
+            daysToWater={daysToWater}
+          ></Button>
         ) : (
           <CountDown
             daysSinceWatered={daysSinceWatered}
@@ -100,47 +82,21 @@ const PlantCard = ({
   );
 };
 
-const ImageWrapper = styled.div`
-  position: relative;
-  width: 100%;
-  height: 360px;
-  margin-bottom: -20px;
-  @media (max-width: 620px) {
-    width: 35%;
-    height: auto;
-    max-height: 240px;
-    margin-bottom: 0px;
-    margin-right: -20px;
-  }
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(105%) contrast(105%);
-  }
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: hsla(63, 70%, 93%, 1);
-    mix-blend-mode: multiply;
-    z-index: 1;
-  }
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: hsla(63, 70%, 93%, 1);
-    mix-blend-mode: color;
-    z-index: 2;
-  }
-`;
+const WateringInfo = ({ daysToWater, daysSinceWatered, isOverdue }) => (
+  <p className="timer">
+    {daysToWater > 0 ? (
+      <>
+        <Timer size={18} />
+        Water in {daysToWater} days
+      </>
+    ) : (
+      <>
+        <SealWarning size={18} className={isOverdue ? "warn" : ""} />
+        Last watered {daysSinceWatered} days ago
+      </>
+    )}
+  </p>
+);
 
 const Card = styled.div`
   border-radius: 16px;
@@ -151,39 +107,6 @@ const Card = styled.div`
   box-shadow: 0px 16px 20px -12px var(--shadow-leaf);
   @media (max-width: 620px) {
     flex-direction: row;
-  }
-`;
-
-const Button = styled.button`
-  height: 70px;
-  margin-top: 0.75rem;
-  background: ${(props) =>
-    props.isOverdue ? "var(--japan)" : "var(--forest)"};
-  color: var(--light-leaf);
-  font-family: var(--font-sans);
-  text-transform: uppercase;
-  letter-spacing: 0.05rem;
-  border: none;
-  font-size: var(--font-md);
-  font-weight: 600;
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-  width: 100%;
-  cursor: pointer;
-  display: flex;
-  justify-content: ${(props) => (props.isOverdue ? "space-between" : "center")};
-  align-items: center;
-  span {
-    font-size: var(--font-sm);
-    padding: 6px 12px;
-    background: var(--light-leaf);
-    border-radius: 16px;
-    color: var(--dark-japan);
-    flex-shrink: 0;
-  }
-  @media (max-width: 620px) {
-    padding: 1rem;
-    height: 52px;
   }
 `;
 
@@ -226,6 +149,48 @@ const Content = styled.div`
     svg.warn {
       color: var(--dark-japan);
     }
+  }
+`;
+
+const ImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 360px;
+  margin-bottom: -20px;
+  @media (max-width: 620px) {
+    width: 35%;
+    height: auto;
+    max-height: 240px;
+    margin-bottom: 0px;
+    margin-right: -20px;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(105%) contrast(105%);
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: hsla(63, 70%, 93%, 1);
+    mix-blend-mode: multiply;
+    z-index: 1;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: hsla(63, 70%, 93%, 1);
+    mix-blend-mode: color;
+    z-index: 2;
   }
 `;
 

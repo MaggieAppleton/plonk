@@ -11,8 +11,18 @@
   --light-leaf: hsl(63, 100%, 96%);
   --dark-leaf: hsl(72, 38%, 88%);
   --forest: hsla(180, 70%, 33%, 1);
+  --forest-gradient: linear-gradient(
+    180deg,
+    hsla(180, 70%, 33%, 0),
+    hsl(180, 88%, 20%)
+  );
   --japan: hsl(13, 75%, 62%);
   --dark-japan: hsl(13, 80%, 55%);
+  --japan-gradient: linear-gradient(
+    180deg,
+    hsla(13, 75%, 62%, 0),
+    hsl(13, 25%, 42%)
+  );
   --slate: hsl(201, 20%, 20%);
   --light-slate: hsl(200, 14%, 61%);
   --font-serif: "Source Serif Pro", serif;
